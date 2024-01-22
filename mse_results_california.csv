@@ -1,0 +1,4 @@
+Model,Mean Squared Error
+Linear Regression,0.8714339736033999
+Decision Tree,1.873721282461652
+Random Forest,0.8758411626744539

@@ -8,11 +8,17 @@ import pandas as pd
 
 real_data=pd.read_csv('adult.csv')
 print(real_data.head(5))
+real_data.dropna(inplace=True)
+
+# Example: Encoding categorical variables
+real_data['workclass']=real_data['workclass'].map({'Private':0,'Local-gov':1,'Self-emp-not-inc':2,'Self-emp-inc':3})        
+real_data['income']=real_data['income'].map({'<=50K':0,'>50K':1})
+
 X_real_train, X_real_test, y_real_train, y_real_test = train_test_split(
     real_data.drop(columns=['income']),real_data['income'], test_size=0.2, random_state=42
 )
 # Initialize your GReaT model
-model = GReaT(llm='distilgpt2', batch_size=64, epochs=50, logging_steps=50, save_steps=400000)
+model = GReaT(llm='distilgpt2', batch_size=64, epochs=100, logging_steps=50, save_steps=400000)
 
 real_train_data = pd.concat([X_real_train, y_real_train], axis=1)
 
@@ -20,7 +26,7 @@ real_train_data = pd.concat([X_real_train, y_real_train], axis=1)
 model.fit(real_train_data)
 
 # Generate synthetic data
-synthetic_data = model.sample(n_samples=100)
+synthetic_data = model.sample(n_samples=10, max_length=2000)
 print("====================")
 print(synthetic_data.head(5))
 print("====================")
@@ -79,6 +85,6 @@ data = {
 df = pd.DataFrame(data)
 
 # Save the DataFrame to a CSV file
-df.to_csv('mse_results_california.csv', index=False)
+df.to_csv('mse_results_adult.csv', index=False)
 
 print("MSE values saved to mse_results.csv")
