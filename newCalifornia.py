@@ -19,7 +19,6 @@ def traintest(X_train, X_test, y_train, y_test):
     model[1].fit(X_train, y_train)
     predictions = model[1].predict(X_test)
     mse[model[0]] = mean_squared_error(y_test, predictions)
-    print(f'{model[0]} MSE: {mse[model[0]]}')
   return mse
 
 real_data = fetch_california_housing(as_frame=True).frame
@@ -38,7 +37,7 @@ if os.path.isfile('great.pkl'):
   with open('great.pkl','rb') as infile:
     model = pickle.load(infile)
 else:
-  model = GReaT(llm='distilgpt2', batch_size=124, epochs=100,
+  model = GReaT(llm='distilgpt2', batch_size=124, epochs=1,
                 logging_steps=50,save_steps=400000)
   # Fit the model on synthetic data
   model.fit(real_data)
